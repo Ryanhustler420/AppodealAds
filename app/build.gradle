@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        applicationId "com.appodeal.test"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    // https://stackoverflow.com/a/22426467
+    /*sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java', '.apt_generated']
+            aidl.srcDirs = ['src/main/aidl', '.apt_generated']
+            assets.srcDirs = ['src/main/assets']
+            res.srcDirs =
+                    [
+                            'src/main/res/layout/activities',
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
+        }
+    }*/
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dexOptions {
+        maxProcessCount 2
+        javaMaxHeapSize "2g"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    google()
+    jcenter()
+    maven { url 'https://maven.google.com' }
+    // Add Appodeal repository
+    maven { url "https://artifactory.appodeal.com/appodeal" }
+}
+
+dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    // Stack ConsentManager (required for requesting Consent from European Users)
+    implementation 'com.explorestack:consent:1.0.4'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+    implementation 'com.appodeal.ads:sdk:2.10.2.+'
+}
